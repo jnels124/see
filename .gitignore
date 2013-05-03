@@ -1,13 +1,26 @@
+# Project output.
+*.zip
+*.out
+
+# Java
 *.class
 build/
-.*.swp
-*.swp
+
+# Mac files.
 .DS_Store
-*.lock
-*.out
-*~
+
+# Net beans files.
+nbproject/private/
+
+# Windows files.
+*._
 Thumbs.db
 *.ini
-nbproject/private/
-*._
+
+# Vim files.
 *~
+.*.swp
+*.swp
+
+# Other files.
+*.lock
