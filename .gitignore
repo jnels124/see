@@ -1,0 +1,13 @@
+*.class
+build/
+.*.swp
+*.swp
+.DS_Store
+*.lock
+*.out
+*~
+Thumbs.db
+*.ini
+nbproject/private/
+*._
+*~
