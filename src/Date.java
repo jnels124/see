@@ -20,13 +20,13 @@ public class Date { //
 	return this.year;
     }
 
-    @overide
+    //@overide
     public int hashCode ( Object value ) {
-    
+	return 0;
     }
     
-    @overide 
+    //@overide 
     public String toString ( Object date ) {
-	
+	return "";
     }
 }
