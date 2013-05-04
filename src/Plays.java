@@ -2,11 +2,11 @@ import java.util.*;
 import java.io.*;
 
 /* This class will drive the lotto analyzation program. It will simulate 
-     several strategies for playing the lottery.
- 
-   @author Jesse Nelson
-   @author Josh Gillham
-   @version May 04, 2013 : OS:3.8.10-1-ARCH : JavaVersion:ArchLinux build 7.u21_2.3.9-1-x86_64 
+ *   several strategies for playing the lottery.
+ *
+ * @author Jesse Nelson
+ * @author Josh Gillham
+ * @version May 04, 2013 : OS:3.8.10-1-ARCH : JavaVersion:ArchLinux build 7.u21_2.3.9-1-x86_64 
  */
 public class Plays {
     private static List<LottoGame> lottoHistory;
@@ -17,8 +17,8 @@ public class Plays {
     }
 
     /* Read lottery data from file specified on command line
-       @param fileName Name of file holding lottery data
-       @return games A list of lottoGame objects created from lottery history 
+     * @param fileName Name of file holding lottery data
+     * @return games A list of lottoGame objects created from lottery history 
      */
     private static List<LottoGame> storeLottoHistory ( String fileName ) {
 	ArrayList<LottoGame> games = new ArrayList<LottoGame> ( );
