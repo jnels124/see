@@ -9,8 +9,8 @@ import java.util.List;
  * @version 5-4-13
  */
 public interface Strategy {
-	/**
-	 * Generates a list of tickets, one ticket for each drawing. The tickets 
+     /**
+     * Generates a list of tickets, one ticket for each drawing. The tickets 
      *  each have a date which corresponds the dates in the history. 
      *
      * @param history is the data from the lottory history.

@@ -36,7 +36,7 @@ public class Plays {
 		st = new StringTokenizer ( line, "," );   // We can pass delimeter from regex string if needed
 		st.nextToken ( ); // Get rid of state token ( CO data set )
 		//while ( st.hasMoreTokens ( ) ) { // Incase we have data formatted differently
-		Date drawingDate = parseDate( st.nextToken ( ) );
+		    Date drawingDate = parseDate( st.nextToken ( ) );
 		    for ( int i = 0; i < 5; i++ ) {
 			gameNumbers.add ( Integer.parseInt ( st.nextToken ( ) ) ); 
 		    }
