@@ -31,15 +31,15 @@ public class Plays {
 	    while ( infile.hasNextLine ( ) ) {
 		gameNumbers = new ArrayList<Integer> ( );
 		line = infile.nextLine ( );
-		st = new StringTokenizer ( line );   // We can pass an additonal argument as delimeter from regex string if needed
+		st = new StringTokenizer ( line, ',' );   // We can pass delimeter from regex string if needed
 		st.nextToken ( ); // Get rid of state token ( CO data set )
-		while ( st.hasMoreTokens ( ) ) { // Incase we have data formatted differently
+		//while ( st.hasMoreTokens ( ) ) { // Incase we have data formatted differently
 		    Date drawingDate = new Date ( st.nextToken ( ) );
 		    for ( int i = 0; i < 5; i++ ) {
 			gameNumbers.add ( Integer.parseInt ( st.nextToken ( ) ) ); 
 		    }
 		    games.add ( new LottoGame ( drawingDate, gameNumbers, 0.0 ) ); 
-		}
+		    //}
 	    }
 	}
 	catch ( FileNotFoundException e ) {
@@ -56,4 +56,6 @@ public class Plays {
 	
 	return games;
     }
+    
+    
 }
