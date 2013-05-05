@@ -10,12 +10,11 @@ import java.io.*;
  */
 public class Plays {
     private static List<LottoGame> lottoHistory;
-    private static List<Strategy> playedStrategies; // Add your strategies to this list
+    private static List<Strategy> strategies; // Add your strategies to this list
     public static void main( String[] args ) {
 	lottoHistory = storeLottoHistory ( args [0] );
-        System.out.print( args[0] );
+	playStrategies ( strategies );
     }
-
     /* Read lottery data from file specified on command line
      * @param fileName Name of file holding lottery data
      * @return games A list of lottoGame objects created from lottery history 
@@ -57,5 +56,17 @@ public class Plays {
 	return games;
     }
     
-    
+    /** This method will will iterate through the strategies and play them
+     *
+     * @param strats list of strategies
+     */
+    private static playStrategies ( List<Strategy> strats ) {
+	Strategy current;
+	for ( int i = 0; i < strats.size ( ); i++ ) {
+	    current = strats.get ( i );
+	    current.play ( );
+	    current.analyze ( );
+	    current.printResults ( );
+	}
+    }
 }
