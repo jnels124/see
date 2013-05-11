@@ -2,10 +2,34 @@
 import java.lang.*;
 import java.util.*;
 
-// This class will hold the data 
-public class Ticket {
-    List<Integer> playNumbers;			// Numbers being played
-    Map<Date, List<Integer> > hits;	    // Hash map of playNumbers hit on date. index of list is the ctr for index in playNumbers
-    //List<Integer> numbersHit;	 		// List of counters for playNumbers. Ctr is for each index in playNumbers
-    double winnings;			 		// Accumulated winnings for playing ticket---> We may not use this!
+/**
+ * Defines the ticket purchase data.
+ *
+ * @author Jesse Nelson
+ * @author Josh Gillham
+ * @version 5-4-13
+ */
+public class Ticket extends Drawing {
+    /** Accumulated winnings for playing ticket---> We may not use this! */
+	double winnings;
+    public Ticket( final Date drawingDate, final List<Integer> winningNumbers, 
+     final double jackpot ) {
+        super( drawingDate, winningNumbers, jackpot );
+    }
+    
+    public static initializePicks ( int numPlays ) {
+    	List < Integer > generatedNums;
+    	List < Ticket > generatedTickets = new ArrayList < Ticket > ( numPlays ); 
+    	Random numGenerator;
+    	int i = 0;
+    	while ( i < numPlays ) {
+    		numGenerator = new Random ( (long) Drawing.MIN_BALL );
+    		generatedNums = new ArrayList ( Drawing.NUM_BALLS );
+    		for ( int j = 0; j < Drawing.NUM_BALLS; j++ ) {
+    			generatedNums.add ( numGenerator.nextInt ( ) );
+    		}
+    		generatedTickets.add ( new Ticket ( new Date ( ), generatedNums ) );
+    	}
+    	return generatedTickets;
+    }
 }

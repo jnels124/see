@@ -8,6 +8,13 @@ import java.util.List;
  *  @version May 04, 2013 : OS:3.8.10-1-ARCH : JavaVersion:ArchLinux build 7.u21_2.3.9-1-x86_64 
  */
 public class Drawing {
+	/** Number of balls in a drawing*/
+	static final NUM_BALLS = 6;
+	/** Lowest ball to possibly it in a drawing */
+	static final MIN_BALL = 1;
+	/** Highest ball to possibly it in a drawing */
+	static final MAX_BALL = 42;
+	
     /** The drawing date. */
     private Date date;
 
@@ -24,9 +31,9 @@ public class Drawing {
      *  @param jackpot The jackpot for this drawing
      */
     public Drawing ( final Date drawingDate, final List<Integer> winningNumbers, final double jackpot ) {
-	this.date = drawingDate;
-	this.winningNumbers = winningNumbers; //parseNumbers ( numbers );
-	this.jackpot = jackpot;
+		this.date = drawingDate;
+		this.winningNumbers = winningNumbers; //parseNumbers ( numbers );
+		this.jackpot = jackpot;
     } 
     
     /** Get date of drawing
@@ -34,7 +41,7 @@ public class Drawing {
      *  @return drawingDate The date of drawing
      */
     public Date getDrawingDate ( ) {
-	return this.date;
+		return this.date;
     }
     
     /** This method gets the winning numbers for a game
@@ -42,7 +49,7 @@ public class Drawing {
      *  @return winngingNumbers
      */
     public List<Integer> getWinningNumbers ( ) {
-	return this.winningNumbers;
+		return this.winningNumbers;
     }
 
     /** This method gets the jackpot for a game
