@@ -12,8 +12,7 @@ import java.util.*;
 public class Ticket extends Drawing {
     /** Accumulated winnings for playing ticket---> We may not use this! */
 	double winnings;
-    public Ticket( final Date drawingDate, final List<Integer> winningNumbers, 
-     final double jackpot ) {
+    public Ticket( final Date drawingDate, final List<Integer> winningNumbers, final double jackpot ) {
         super( drawingDate, winningNumbers, jackpot );
     }
     
@@ -40,7 +39,7 @@ public class Ticket extends Drawing {
     	//int i = 0;
     	//while ( i < numPlays ) {
     		numGenerator = new Random ( (long) Drawing.MIN_BALL );
-    		generatedNums = new ArrayList ( Drawing.NUM_BALLS );
+    		generatedNums = new ArrayList< Integer > ( Drawing.NUM_BALLS );
     		for ( int j = 0; j < Drawing.NUM_BALLS; j++ ) {
     			generatedNums.add ( numGenerator.nextInt ( Drawing.MAX_BALL + 1 ) );
     		}

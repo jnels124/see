@@ -26,7 +26,7 @@ public enum Experiment {
     /** Can we get a better winning probability with low numbers? */
     PICKY_LOW_NUMBERS_PLAYER,
     
-    PLAY_HISTORY_PLAYER;
+    HISTORY_PLAYER
     ;
     /** Set to true to enable debugging. */
     static public boolean DEBUG = false;
@@ -149,7 +149,14 @@ public enum Experiment {
             runPickyPlayer_HighNumbers( lottoHistory, outputPrefix );
         break;
         case MANIAC_PLAYER:
+        	runManiacPlayer ( lottoHistory, outputPrefix );
+        break;
         case PICKY_LOW_NUMBERS_PLAYER:
+        	runPickyPlayer_LowNumbers( lottoHistory, outputPrefix );
+        break;
+        case HISTORY_PLAYER:
+        	runHistoryPlayer( lottoHistory, outputPrefix );
+        break;
         default:
             System.out.println( "Experiment needs implementation." );
             printUsage();
@@ -226,7 +233,7 @@ public enum Experiment {
             System.setOut( standardOut );
             try {
                 FileWriter outputFile = new FileWriter( 
-                 String.format( "%s-pickyLOW-%03d.csv", outputPrefix, i ) );
+                 String.format( "%s-pickyHigh-%03d.csv", outputPrefix, i ) );
                 outputFile.write( outputCollector.toString() );
             }
             catch ( java.io.IOException e ) {
@@ -254,7 +261,7 @@ public enum Experiment {
                 universe.remove( select );
                 picks.add( select );
             }*/
-            oneTicket current = new oneTicket( Ticket.initializePicks( 1, Drawing.MIN_BALL, (Drawing.MAX_BALL + Drawing.MIN_BALL) / 2 ), lottoHistory );
+            oneTicket current = new oneTicket( Ticket.initializePicks( 1, Drawing.MIN_BALL, ( Drawing.MAX_BALL + Drawing.MIN_BALL ) / 2 ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
             System.setOut( new PrintStream( outputCollector ) );
@@ -262,7 +269,7 @@ public enum Experiment {
             System.setOut( standardOut );
             try {
                 FileWriter outputFile = new FileWriter( 
-                 String.format( "%s-pickyHigh-%03d.csv", outputPrefix, i ) );
+                 String.format( "%s-pickyLow-%03d.csv", outputPrefix, i ) );
                 outputFile.write( outputCollector.toString() );
             }
             catch ( java.io.IOException e ) {
@@ -307,6 +314,42 @@ public enum Experiment {
         }
     }
     
+    static public void runManiacPlayer( 
+     	List<Drawing> lottoHistory, String outputPrefix ) {
+        System.out.println( "Test4a" );
+        PrintStream standardOut = System.out;
+        final int numTickets = 50;
+        final int TRIALS = 20;
+        //final int MIN_NUM = 1;
+        //final int MAX_NUM = 21;
+        //final int MIN_PICKS = 6;
+        for ( int i = 0; i < TRIALS; ++i ) {
+            /*List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+             new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
+
+            /*List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );
+            while ( picks.size() < MIN_PICKS ) {
+                Integer select = universe.get( 
+                 (int)( Math.random() * picks.size() ) );
+                universe.remove( select );
+                picks.add( select );
+            }*/
+            ManiacPlayer current = new ManiacPlayer( numTickets, lottoHistory ); //( Ticket.initializePicks( 1, Drawing.MIN_BALL, ( Drawing.MAX_BALL + Drawing.MIN_BALL ) / 2 ), lottoHistory );
+            List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
+            ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
+            System.setOut( new PrintStream( outputCollector ) );
+            current.printResults( hits );
+            System.setOut( standardOut );
+            try {
+                FileWriter outputFile = new FileWriter( 
+                 String.format( "%s-maniacPlayer-%03d.csv", outputPrefix, i ) );
+                outputFile.write( outputCollector.toString() );
+            }
+            catch ( java.io.IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
     /*static public List<Integer> range( int min, int max, List<Integer> list ) {
         for ( int i = min; i <= max; ++i ) {
             list.add( i );
