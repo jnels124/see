@@ -17,7 +17,7 @@ public class Ticket extends Drawing {
         super( drawingDate, winningNumbers, jackpot );
     }
     
-    public static initializePicks ( int numPlays ) {
+    /*public static Ticket initializePicks ( int numPlays, int minBall, int maxBall ) {
     	List < Integer > generatedNums;
     	List < Ticket > generatedTickets = new ArrayList < Ticket > ( numPlays ); 
     	Random numGenerator;
@@ -26,10 +26,26 @@ public class Ticket extends Drawing {
     		numGenerator = new Random ( (long) Drawing.MIN_BALL );
     		generatedNums = new ArrayList ( Drawing.NUM_BALLS );
     		for ( int j = 0; j < Drawing.NUM_BALLS; j++ ) {
-    			generatedNums.add ( numGenerator.nextInt ( ) );
+    			generatedNums.add ( numGenerator.nextInt ( Drawing.MAX_BALL + 1 ) );
     		}
     		generatedTickets.add ( new Ticket ( new Date ( ), generatedNums ) );
     	}
     	return generatedTickets;
-    }
+    } */
+    
+    public static ArrayList< Integer > initializePicks ( int numPlays, int minBall, int maxBall ) {
+    	ArrayList < Integer > generatedNums;
+    	//List < Ticket > generatedTickets = new ArrayList < Ticket > ( numPlays ); 
+    	Random numGenerator;
+    	//int i = 0;
+    	//while ( i < numPlays ) {
+    		numGenerator = new Random ( (long) Drawing.MIN_BALL );
+    		generatedNums = new ArrayList ( Drawing.NUM_BALLS );
+    		for ( int j = 0; j < Drawing.NUM_BALLS; j++ ) {
+    			generatedNums.add ( numGenerator.nextInt ( Drawing.MAX_BALL + 1 ) );
+    		}
+    		//generatedTickets.add ( new Ticket ( new Date ( ), generatedNums ) );
+    	//}
+    	return generatedNums;
+    } 
 }
