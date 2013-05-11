@@ -37,7 +37,9 @@ public interface Strategy {
      * @param hits the list of ticket scores.
      */
 	public void printResults ( List< Hit > hits );
-    
+	
+	//public void runExperiment ( List<Drawing> lottoHistory, String outputPrefix ) {
+    public Strategy reset ( );
 	/** Optional. If we want to graph the data with java. */
 	// public void graphData ( );
 }

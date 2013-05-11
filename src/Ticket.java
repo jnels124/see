@@ -32,7 +32,7 @@ public class Ticket extends Drawing {
     	return generatedTickets;
     } */
     
-    public static ArrayList< Integer > initializePicks ( int numPlays, int minBall, int maxBall ) {
+    public static List< Integer > initializePicks ( int numPlays, int minBall, int maxBall ) {
     	ArrayList < Integer > generatedNums;
     	//List < Ticket > generatedTickets = new ArrayList < Ticket > ( numPlays ); 
     	Random numGenerator;

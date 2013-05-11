@@ -79,6 +79,32 @@ public class PickByHistory implements Strategy {
         }
     }
     
+    public Strategy reset( ) {
+    	return new PickByHistory( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), this.history );
+    }
+    
+    /*public void runExperiment ( List<Drawing> lottoHistory, String outputPrefix ) {
+        System.out.println( "Test3a" );
+        PrintStream standardOut = System.out;
+     
+        for ( int i = 0; i < TRIALS; ++i ) {
+            PickByHistory current = new PickByHistory( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory );
+            List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
+            ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
+            System.setOut( new PrintStream( outputCollector ) );
+            current.printResults( hits );
+            System.setOut( standardOut );
+            try {
+                FileWriter outputFile = new FileWriter( 
+                 String.format( "%s-history-%03d.csv", outputPrefix, i ) );
+                outputFile.write( outputCollector.toString() );
+            }
+            catch ( java.io.IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+    
     private void compareTicketToWinner ( Ticket ticket, final Drawing drawing ) {
     	for ( int i = 0; i < 6; i++ ) {
     		this.myQ.enqueue ( ticket.getWinningNumbers( ).get( i ) ); //enqueue recently hit numbers

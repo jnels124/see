@@ -66,6 +66,7 @@ public enum Experiment {
      * @param args expects a number designating the experiment to run.
      */
     static public void main( String[] args ) {
+    	int highRange, lowRange;
         // DEBUG print all arguments.
         if ( DEBUG ) {
             for( int i = 0; i < args.length; ++i ) {
@@ -143,19 +144,26 @@ public enum Experiment {
         switch ( choice ) {
         case STUBORN_PLAYER:
             System.out.println( "Test3" );
-            runStubornPlayer( lottoHistory, outputPrefix );
+            runExperiment ( lottoHistory, outputPrefix, new StubornPlayer ( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory ) );
+            //runStubornPlayer( lottoHistory, outputPrefix );
         break;
         case PICKY_HIGH_NUMBERS_PLAYER:
-            runPickyPlayer_HighNumbers( lottoHistory, outputPrefix );
+        	highRange = Drawing.MAX_BALL;
+        	lowRange = ( (Drawing.MIN_BALL + Drawing.MAX_BALL) / 2 ) + 1;
+            //runPickyPlayer_HighNumbers( lottoHistory, outputPrefix );
+            runExperiment ( lottoHistory, outputPrefix, new PickyPlayer ( Ticket.initializePicks( 1, lowRange, highRange ), lottoHistory, highRange, lowRange ) );
         break;
         case MANIAC_PLAYER:
-        	runManiacPlayer ( lottoHistory, outputPrefix );
+        	runExperiment ( lottoHistory, outputPrefix, new ManiacPlayer ( 50, lottoHistory ) );
         break;
         case PICKY_LOW_NUMBERS_PLAYER:
-        	runPickyPlayer_LowNumbers( lottoHistory, outputPrefix );
+        	highRange = (Drawing.MIN_BALL + Drawing.MAX_BALL) / 2;
+        	lowRange =  Drawing.MIN_BALL;
+        	//unPickyPlayer_LowNumbers( lottoHistory, outputPrefix );
+        	runExperiment ( lottoHistory, outputPrefix, new PickyPlayer ( Ticket.initializePicks( 1, lowRange, highRange ), lottoHistory, highRange, lowRange ) );
         break;
         case HISTORY_PLAYER:
-        	runHistoryPlayer( lottoHistory, outputPrefix );
+        	runExperiment ( lottoHistory, outputPrefix, new PickByHistory( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory ) );
         break;
         default:
             System.out.println( "Experiment needs implementation." );
@@ -171,7 +179,7 @@ public enum Experiment {
     }
     
     /** Run the stuborn player experiment. */
-    static public void runStubornPlayer( List<Drawing> lottoHistory, String outputPrefix ) {
+    /*static public void runStubornPlayer( List<Drawing> lottoHistory, String outputPrefix ) {
         System.out.println( "Test3a" );
         PrintStream standardOut = System.out;
         final int TRIALS = 20;
@@ -188,7 +196,7 @@ public enum Experiment {
                  (int)( Math.random() * picks.size() ) );
                 universe.remove( select );
                 picks.add( select );
-            }*/
+            }
             oneTicket current = new oneTicket( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
@@ -204,9 +212,9 @@ public enum Experiment {
                 e.printStackTrace();
             }
         }
-    }
+    } 
     /** Run the stuborn player experiment. */
-    static public void runPickyPlayer_HighNumbers( 
+    /*static public void runPickyPlayer_HighNumbers( 
      List<Drawing> lottoHistory, String outputPrefix ) {
         System.out.println( "Test3a" );
         PrintStream standardOut = System.out;
@@ -224,7 +232,7 @@ public enum Experiment {
                  (int)( Math.random() * picks.size() ) );
                 universe.remove( select );
                 picks.add( select );
-            }*/
+            }
             oneTicket current = new oneTicket( Ticket.initializePicks( 1, ( (Drawing.MIN_BALL + Drawing.MAX_BALL) / 2 ) + 1, Drawing.MAX_BALL ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
@@ -260,7 +268,7 @@ public enum Experiment {
                  (int)( Math.random() * picks.size() ) );
                 universe.remove( select );
                 picks.add( select );
-            }*/
+            }
             oneTicket current = new oneTicket( Ticket.initializePicks( 1, Drawing.MIN_BALL, ( Drawing.MAX_BALL + Drawing.MIN_BALL ) / 2 ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
@@ -276,9 +284,45 @@ public enum Experiment {
                 e.printStackTrace();
             }
         }
+    }*/
+    public static void runExperiment ( List<Drawing> lottoHistory, String outputPrefix, Strategy current ) {
+    	final int TRIALS = 20;
+    	//for ( Strategy current : this.experiments ) { 
+    		PrintStream standardOut = System.out;
+    		//System.out.println( current.getTestName( ) );
+    		for ( int i = 0; i < TRIALS; ++i, current = current.reset( ) ) {
+            /*List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+             new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
+
+            List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );
+            while ( picks.size() < MIN_PICKS ) {
+                Integer select = universe.get( 
+                 (int)( Math.random() * picks.size() ) );
+                universe.remove( select );
+                picks.add( select );
+            } */
+            //PickByHistory current = new PickByHistory( Ticket.initializePicks( 1, this.lowBall, this.highBall ), lottoHistory );
+            	List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
+           	 	ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
+            	System.setOut( new PrintStream( outputCollector ) );
+            	current.printResults( hits );
+            	System.setOut( standardOut );
+            	try {
+                	FileWriter outputFile = new FileWriter( 
+               	 	String.format( "%s-history-%03d.csv", outputPrefix, i ) ); // this needs to be adjusted to get current.getTestName()
+                	outputFile.write( outputCollector.toString() );
+            	}
+            	catch ( java.io.IOException e ) {
+                	e.printStackTrace();
+            	}
+   
+        	}
+    	//}
+        
     }
     
-    static public void runHistoryPlayer ( 
+    
+    /*static public void runHistoryPlayer ( 
      List<Drawing> lottoHistory, String outputPrefix ) {
         System.out.println( "Test3a" );
         PrintStream standardOut = System.out;
@@ -297,7 +341,7 @@ public enum Experiment {
                 universe.remove( select );
                 picks.add( select );
             } */
-            PickByHistory current = new PickByHistory( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory );
+            /*PickByHistory current = new PickByHistory( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
             System.setOut( new PrintStream( outputCollector ) );
@@ -312,9 +356,9 @@ public enum Experiment {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
     
-    static public void runManiacPlayer( 
+    /*static public void runManiacPlayer( 
      	List<Drawing> lottoHistory, String outputPrefix ) {
         System.out.println( "Test4a" );
         PrintStream standardOut = System.out;
@@ -334,7 +378,7 @@ public enum Experiment {
                 universe.remove( select );
                 picks.add( select );
             }*/
-            ManiacPlayer current = new ManiacPlayer( numTickets, lottoHistory ); //( Ticket.initializePicks( 1, Drawing.MIN_BALL, ( Drawing.MAX_BALL + Drawing.MIN_BALL ) / 2 ), lottoHistory );
+            /*ManiacPlayer current = new ManiacPlayer( numTickets, lottoHistory ); //( Ticket.initializePicks( 1, Drawing.MIN_BALL, ( Drawing.MAX_BALL + Drawing.MIN_BALL ) / 2 ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
             System.setOut( new PrintStream( outputCollector ) );
@@ -349,7 +393,7 @@ public enum Experiment {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
     /*static public List<Integer> range( int min, int max, List<Integer> list ) {
         for ( int i = min; i <= max; ++i ) {
             list.add( i );

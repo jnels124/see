@@ -2,20 +2,19 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Date;
-public class oneTicket implements Strategy {
+public class StubornPlayer implements Strategy {
     final List< Integer > picks;
     final List <Drawing> history;
     
-    public oneTicket ( final List< Integer > picks, final List <Drawing> history ) {
-	this.picks = picks;
-	this.history = history;
+    public StubornPlayer ( final List< Integer > picks, final List <Drawing> history ) {
+		this.picks = picks;
+		this.history = history;
         // Method headers will be adjusted later
     }
     public List< Ticket > play ( final List< Drawing > history ) {
         return java.util.Arrays.asList( new Ticket( new Date(), picks, 0 ) );
     }
-    public List< Hit > analyze ( final List< Ticket > tickets,
-     final List< Drawing > history ) {
+    public List< Hit > analyze ( final List< Ticket > tickets, final List< Drawing > history ) {
         Ticket ticket = tickets.get( 0 );
         List< Hit > hits = new LinkedList< Hit >();
         for ( Drawing drawing : history ) {
@@ -63,4 +62,8 @@ public class oneTicket implements Strategy {
              hit.getWinningNumbers().size() );
         }
     }
+    
+    public Strategy reset ( ) {
+    	return new StubornPlayer ( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), this.history ) ;
+    } 
 }
