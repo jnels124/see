@@ -24,7 +24,9 @@ public enum Experiment {
     PICKY_HIGH_NUMBERS_PLAYER
     ,
     /** Can we get a better winning probability with low numbers? */
-    PICKY_LOW_NUMBERS_PLAYER
+    PICKY_LOW_NUMBERS_PLAYER,
+    
+    PLAY_HISTORY_PLAYER;
     ;
     /** Set to true to enable debugging. */
     static public boolean DEBUG = false;
@@ -170,7 +172,7 @@ public enum Experiment {
         final int MAX_NUM = 42;
         final int MIN_PICKS = 6;
         for ( int i = 0; i < TRIALS; ++i ) {
-            List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+            /*List< Integer > universe = range( MIN_NUM, MAX_NUM, 
              new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
 
             List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );
@@ -179,8 +181,8 @@ public enum Experiment {
                  (int)( Math.random() * picks.size() ) );
                 universe.remove( select );
                 picks.add( select );
-            }
-            oneTicket current = new oneTicket( picks, lottoHistory );
+            }*/
+            oneTicket current = new oneTicket( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
             System.setOut( new PrintStream( outputCollector ) );
@@ -206,7 +208,7 @@ public enum Experiment {
         final int MAX_NUM = 42;
         final int MIN_PICKS = 6;
         for ( int i = 0; i < TRIALS; ++i ) {
-            List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+            /*List< Integer > universe = range( MIN_NUM, MAX_NUM, 
              new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
 
             List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );
@@ -215,8 +217,44 @@ public enum Experiment {
                  (int)( Math.random() * picks.size() ) );
                 universe.remove( select );
                 picks.add( select );
+            }*/
+            oneTicket current = new oneTicket( Ticket.initializePicks( 1, ( (Drawing.MIN_BALL + Drawing.Max_BALL) / 2 ) + 1, Drawing.MAX_BALL ), lottoHistory );
+            List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
+            ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
+            System.setOut( new PrintStream( outputCollector ) );
+            current.printResults( hits );
+            System.setOut( standardOut );
+            try {
+                FileWriter outputFile = new FileWriter( 
+                 String.format( "%s-pickyLOW-%03d.csv", outputPrefix, i ) );
+                outputFile.write( outputCollector.toString() );
             }
-            oneTicket current = new oneTicket( picks, lottoHistory );
+            catch ( java.io.IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    static public void runPickyPlayer_LowNumbers( 
+     List<Drawing> lottoHistory, String outputPrefix ) {
+        System.out.println( "Test4a" );
+        PrintStream standardOut = System.out;
+        final int TRIALS = 20;
+        final int MIN_NUM = 1;
+        final int MAX_NUM = 21;
+        final int MIN_PICKS = 6;
+        for ( int i = 0; i < TRIALS; ++i ) {
+            List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+             new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
+
+            /*List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );
+            while ( picks.size() < MIN_PICKS ) {
+                Integer select = universe.get( 
+                 (int)( Math.random() * picks.size() ) );
+                universe.remove( select );
+                picks.add( select );
+            }*/
+            oneTicket current = new oneTicket( Ticket.initializePicks( 1, Drawing.MIN_BALL, (Drawing.MAX_BALL + Drawing.MIN_BALL) / 2 ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
             System.setOut( new PrintStream( outputCollector ) );
@@ -232,10 +270,47 @@ public enum Experiment {
             }
         }
     }
-    static public List<Integer> range( int min, int max, List<Integer> list ) {
+    
+    static public void runHistoryPlayer ( 
+     List<Drawing> lottoHistory, String outputPrefix ) {
+        System.out.println( "Test3a" );
+        PrintStream standardOut = System.out;
+        final int TRIALS = 20;
+        final int MIN_NUM = 22;
+        final int MAX_NUM = 42;
+        final int MIN_PICKS = 6;
+        for ( int i = 0; i < TRIALS; ++i ) {
+            /*List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+             new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
+
+            List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );
+            while ( picks.size() < MIN_PICKS ) {
+                Integer select = universe.get( 
+                 (int)( Math.random() * picks.size() ) );
+                universe.remove( select );
+                picks.add( select );
+            } */
+            PickByHistory current = new PickByHistory( Ticket.initializePicks( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), lottoHistory );
+            List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
+            ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
+            System.setOut( new PrintStream( outputCollector ) );
+            current.printResults( hits );
+            System.setOut( standardOut );
+            try {
+                FileWriter outputFile = new FileWriter( 
+                 String.format( "%s-history-%03d.csv", outputPrefix, i ) );
+                outputFile.write( outputCollector.toString() );
+            }
+            catch ( java.io.IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /*static public List<Integer> range( int min, int max, List<Integer> list ) {
         for ( int i = min; i <= max; ++i ) {
             list.add( i );
         }
         return list;
-    }
+    } */
 }
