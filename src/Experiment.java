@@ -218,7 +218,7 @@ public enum Experiment {
                 universe.remove( select );
                 picks.add( select );
             }*/
-            oneTicket current = new oneTicket( Ticket.initializePicks( 1, ( (Drawing.MIN_BALL + Drawing.Max_BALL) / 2 ) + 1, Drawing.MAX_BALL ), lottoHistory );
+            oneTicket current = new oneTicket( Ticket.initializePicks( 1, ( (Drawing.MIN_BALL + Drawing.MAX_BALL) / 2 ) + 1, Drawing.MAX_BALL ), lottoHistory );
             List< Hit > hits = current.analyze( current.play( lottoHistory ), lottoHistory );
             ByteArrayOutputStream outputCollector = new ByteArrayOutputStream();
             System.setOut( new PrintStream( outputCollector ) );
@@ -244,7 +244,7 @@ public enum Experiment {
         final int MAX_NUM = 21;
         final int MIN_PICKS = 6;
         for ( int i = 0; i < TRIALS; ++i ) {
-            List< Integer > universe = range( MIN_NUM, MAX_NUM, 
+            /*List< Integer > universe = range( MIN_NUM, MAX_NUM, 
              new ArrayList<Integer>( MAX_NUM - MIN_NUM + 1 ) );
 
             /*List< Integer > picks = new ArrayList< Integer >( MAX_NUM - MIN_NUM + 1 );

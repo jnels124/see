@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class Drawing {
 	/** Number of balls in a drawing*/
-	static final NUM_BALLS = 6;
+	static final int NUM_BALLS = 6;
 	/** Lowest ball to possibly it in a drawing */
-	static final MIN_BALL = 1;
+	static final int MIN_BALL = 1;
 	/** Highest ball to possibly it in a drawing */
-	static final MAX_BALL = 42;
+	static final int MAX_BALL = 42;
 	
     /** The drawing date. */
     private Date date;

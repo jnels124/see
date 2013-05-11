@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Date;
 public class ManiacPlayer implements Strategy {
 	private int numPlays; 
 	private List < Drawing > history;
@@ -8,11 +11,11 @@ public class ManiacPlayer implements Strategy {
 		//this.picks = Drawing.initializePicks ( numPlays )
     }
 
-    public static void play ( final int numPlays, final List < Drawing > history ) {
+    public List< Ticket > play ( final List< Drawing > history ) {
 		//this.picks = Ticket.initializePicks ( );
 		/*for ( int i = 0; i < this.picks; i++ ) {
 		}*/
-		return Drawing.initializePicks ( numPlays );
+		return java.util.Arrays.asList( new Ticket ( new Date( ), Ticket.initializePicks ( 1, Drawing.MIN_BALL, Drawing.MAX_BALL ), 0 ) ); 
 		
 	}
 
@@ -21,8 +24,8 @@ public class ManiacPlayer implements Strategy {
     	for ( Ticket currTicket : tickets ) {
     		for ( Drawing currDrawing : history ) {
     			List< Integer > winners = new LinkedList < Integer >( );
-    			oneTicket.listIntersection ( currTicket.getWinningNumbers ( ), currDrawing.getWinningNumbers, winners ); 
-    			hits.add ( new Hit( currDrawing.getDate( ), winners, drawing.getJackpot( ) ) );
+    			oneTicket.listIntersection ( currTicket.getWinningNumbers ( ), currDrawing.getWinningNumbers( ), winners ); 
+    			hits.add ( new Hit( currDrawing.getDrawingDate( ), winners, currDrawing.getJackpot( ) ) );
     		
     		}
     	}
